@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * _print_rev_recursion - check the code for Holberton School students.
+ * _print_rev_recursion - check the code for alx students.
  * @s: character of a string
  * Return: Always 0.
  */
