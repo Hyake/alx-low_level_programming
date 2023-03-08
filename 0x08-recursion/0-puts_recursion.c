@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * _puts_recursion - check the code for Holberton School students.
  * @s: character of string
