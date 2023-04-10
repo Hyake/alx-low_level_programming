@@ -1,47 +1,47 @@
+
+ 
+
+/*
+ * File: 0-read_textfile.c
+ * Francis Shoke
+ */
+
 #include "main.h"
 #include <stdlib.h>
-/**
-  * read_textfile - reads a text file and prints it to the POSIX stdout
-  * @filename: file to read
-  * @letters: number of letters it should read and print
-  * Return: number of letters it could read and print or 0 if fails
-  */
 
+/**
+ * read_textfile - Reads a text file and prints it to POSIX stdout.
+ * @filename: A pointer to the name of the file.
+ * @letters: The number of letters the
+ *           function should read and print.
+ *
+ * Return: If the function fails or filename is NULL - 0.
+ *         O/w - the actual number of bytes the function can read and print.
+ */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	char *buff;
-	int x;
-	size_t lRead, check;
+	ssize_t o, r, w;
+	char *buffer;
 
-	if (!filename || !letters)
+	if (filename == NULL)
 		return (0);
 
-	buff = malloc(letters);
-	if (!buff)
+	buffer = malloc(sizeof(char) * letters);
+	if (buffer == NULL)
 		return (0);
-	/* open file */
-	x = open(filename, O_RDONLY);
-	if (x == -1)
+
+	o = open(filename, O_RDONLY);
+	r = read(o, buffer, letters);
+	w = write(STDOUT_FILENO, buffer, r);
+
+	if (o == -1 || r == -1 || w == -1 || w != r)
 	{
-		free(buff);
+		free(buffer);
 		return (0);
 	}
-	/* read file up to "letters" amount of charachters */
-	lRead = read(x, buff, letters);
-	if (lRead < 1)
-	{
-		free(buff);
-		close(x);
-		return (0);
-	}
-	/* write content read */
-	check = write(STDOUT_FILENO, buff, lRead);
 
-	free(buff);
-	close(x);
+	free(buffer);
+	close(o);
 
-	if (!check || check != lRead)
-		return (0);
-
-	return (lRead);
+	return (w);
 }
